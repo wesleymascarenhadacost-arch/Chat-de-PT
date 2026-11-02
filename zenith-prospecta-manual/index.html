@@ -43,6 +43,20 @@
 .mg-note{font-size:12px;color:#5f7084;margin-top:9px}
 @media(max-width:850px){.mg-list{grid-template-columns:1fr}}
 @media(max-width:680px){.mobilebar .nav-btn{font-size:11px;padding:7px 3px}.mobilebar .nav-btn .symbol{font-size:18px}.mg-contact{padding:15px}.mg-actions .btn{flex:1 1 44%}}
+
+.niche-switcher{margin-bottom:14px;padding:14px 16px;border:1px solid var(--line);border-radius:15px;background:#f7faff}
+.niche-switcher strong{display:block;margin-bottom:9px;color:var(--navy)}
+.niche-switcher small{display:block;color:var(--muted);margin-top:9px}
+.niche-tabs{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.niche-tab{background:white;border:1px solid #d3dfea;border-radius:999px;padding:9px 12px;color:#22415e;font-weight:700;font-size:12px}
+.niche-tab.active{background:var(--blue);color:white;border-color:var(--blue)}
+.niche-tab.add{border-style:dashed;background:#f7faff}
+.niche-sidebar{display:flex;flex-direction:column;gap:5px;max-height:210px;overflow:auto;padding:0 4px}
+.niche-sidebar button{border:0;background:transparent;color:#d6e6f5;text-align:left;padding:8px 10px;border-radius:9px;font-size:13px}
+.niche-sidebar button.active{background:#1b527e;color:#fff;font-weight:800}
+.niche-intro{margin-bottom:15px;padding:16px;background:#f3f8ff;border:1px solid var(--line);border-radius:15px}
+.niche-intro p{white-space:pre-line;color:#405772;font-size:13px}
+@media(max-width:680px){.niche-switcher{padding:12px}.niche-tab{font-size:12px;padding:8px 11px}}
 </style>
 </head>
 <body>
@@ -57,6 +71,7 @@
   <button class="nav-btn" data-tab="mensagens"><span class="symbol">✎</span> Mensagens</button>
   <button class="nav-btn" data-tab="ajuda"><span class="symbol">✧</span> Como usar</button>
  </nav>
+ <div class="mini-label">LISTAS POR NICHO</div><div class="niche-sidebar" id="niche-sidebar" aria-label="Listas por nicho"></div>
  <div class="sidebar-foot"><b>Modo manual • gratuito</b>Use o Google Maps para encontrar negócios. Seus contatos ficam somente neste navegador, neste aparelho.</div>
 </aside>
 <div class="main">
@@ -81,6 +96,7 @@
     <div id="search-history" class="smalltext" style="margin-top:13px"></div>
    </section>
    <section class="panel"><div class="panel-head"><div><div class="eyebrow">CONTROLE COMERCIAL</div><h2>Suas oportunidades <span class="count" id="list-count">0</span></h2></div><div class="btn-row"><button class="btn soft small" id="import-csv">↥ Importar CSV</button><button class="btn outline small" id="export-csv">↓ Exportar CSV</button><button class="btn primary small" id="new-contact">＋ Nova empresa</button></div></div>
+    <div class="niche-switcher"><strong id="niche-heading">Seus contatos por nicho</strong><div id="niche-tabs" class="niche-tabs" aria-label="Selecionar lista de nicho"></div><small>Escolha uma lista: contatos e mensagens ficam separados, sem apagar os dados anteriores.</small></div>
     <div class="toolbar"><div class="filters"><input type="search" id="filter-search" placeholder="⌕ Buscar nome, cidade..." aria-label="Buscar contatos"/><select id="filter-stage" aria-label="Filtrar por etapa"><option value="">Todas as etapas</option></select><select id="filter-site" aria-label="Filtrar por site"><option value="">Qualquer situação de site</option><option>Sem site informado</option><option>Com site informado</option><option>A verificar</option></select></div></div>
     <div id="contact-list" class="contact-list"></div>
    </section>
@@ -95,6 +111,7 @@
 <section class="view" id="view-acompanhamento"><div class="eyebrow">SEU FUNIL DE VENDAS</div><h1 class="sectiontitle">Cada conversa, um próximo passo</h1><p class="muted">Mude a etapa de cada empresa conforme a conversa avançar.</p><div class="board" id="board"></div></section>
   <section class="view" id="view-mensagens"><div class="eyebrow">ABORDAGEM PERSONALIZADA</div><h1 class="sectiontitle">Sua voz. Uma boa primeira impressão.</h1><p class="muted">Mensagens curtas para copiar ou abrir no WhatsApp. Nenhuma mensagem é enviada automaticamente.</p>
     <section class="panel"><div class="panel-head"><h2>Dados da sua abordagem</h2><button class="btn small primary" id="save-settings">Salvar</button></div><div class="form-grid"><div class="field"><label for="seller-name">Seu nome</label><input id="seller-name" placeholder="Seu nome" value="Wesley" /></div><div class="field"><label for="agency-name">Nome da empresa</label><input id="agency-name" value="Zenith Digital" /></div><div class="field"><label for="msg-phone">Telefone para abrir WhatsApp</label><input id="msg-phone" placeholder="DDD + número (opcional)" inputmode="tel" /></div><div class="field span3"><label for="msg-business">Nome do negócio para personalizar mensagens (opcional)</label><input id="msg-business" placeholder="Ex.: Barbearia Central" /></div></div></section>
+    <div class="niche-intro"><strong id="intro-niche-label">Mensagem principal do nicho</strong><p id="intro-niche-preview"></p><button class="btn soft small" id="use-niche-intro">Preparar primeira mensagem</button></div>
     <section class="panel"><div class="panel-head"><div><h2>Do primeiro oi ao fechamento</h2><div class="smalltext">16 modelos que você pode editar e salvar</div></div><button id="restore-templates" class="btn outline small">Restaurar modelos</button></div><div id="message-list" class="message-grid"></div></section>
   </section>
   <section class="view" id="view-ajuda"><div class="eyebrow">SIMPLES, GRATUITO E MANUAL</div><h1 class="sectiontitle">Como usar a Zenith Prospecta</h1><div class="steps"><div class="step"><div class="num">1</div><h3>Procure no Maps</h3><p class="muted">Pesquise um segmento e uma cidade. Abra perfis de negócios e confira as informações.</p></div><div class="step"><div class="num">2</div><h3>Cadastre uma empresa</h3><p class="muted">Clique em + Nova empresa e salve nome, telefone público, cidade e suas próprias observações.</p></div><div class="step"><div class="num">3</div><h3>Prepare uma conversa</h3><p class="muted">Escolha uma mensagem, revise o texto e abra o WhatsApp. Atualize o acompanhamento.</p></div></div>
@@ -141,6 +158,31 @@ let stored={};let storageOk=true;try{stored=JSON.parse(localStorage.getItem(KEY)
 const safeContacts=arr=>Array.isArray(arr)?arr.filter(x=>x&&typeof x==='object'&&typeof x.name==='string'&&x.name.trim()).slice(0,10000).map(x=>({id:String(x.id||uid()),name:String(x.name||'').slice(0,160),phone:String(x.phone||'').slice(0,50),city:String(x.city||'').slice(0,160),segment:String(x.segment||'').slice(0,120),stage:stages.includes(x.stage)?x.stage:'Novo',site:['A verificar','Sem site informado','Com site informado'].includes(x.site)?x.site:'A verificar',address:String(x.address||'').slice(0,300),maps:String(x.maps||'').slice(0,1000),notes:String(x.notes||'').slice(0,3000),created:String(x.created||now())})):[];
 let contacts=safeContacts(stored.contacts||[]),searches=Array.isArray(stored.searches)?stored.searches:[],templates=Array.isArray(stored.templates)&&stored.templates.length===16?stored.templates.map(String):initialTemplates.map(x=>x[2]);
 let seller=stored.seller&&typeof stored.seller==='object'?stored.seller:{name:'Wesley',agency:'Zenith Digital'};
+const REAL_ESTATE_INTRO="Vi os imóveis de vocês e acho que eles chamariam muito mais atenção em vídeo do que só em foto.\n\nEu faço vídeos com inteligência artificial pra imobiliárias, usando as fotos que vocês já têm. Não precisa gravar nada.\n\nTem vídeo de imóvel nesse estilo batendo milhões de views no TikTok e no Reels. Posso te mostrar uns exemplos?";
+let niches=Array.isArray(stored.niches)?stored.niches.map(String).filter(Boolean).slice(0,60):[];
+let nicheIntros=stored.nicheIntros&&typeof stored.nicheIntros==='object'?stored.nicheIntros:{};
+let activeNiche=typeof stored.activeNiche==='string'&&stored.activeNiche?stored.activeNiche:'Imobiliárias';
+let editNiche='';
+function simplified(v){return String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim().toLocaleLowerCase('pt-BR')}
+function nicheCategory(segment){const k=simplified(segment);if(!k)return 'Outros';if(/barb|barber/.test(k))return 'Barbearias';if(/imobiliar|corretor|imoveis|imovel|real estate/.test(k))return 'Imobiliárias';return String(segment).trim().slice(0,80)}
+function segmentForNiche(n){if(n==='Barbearias')return 'Barbearia';if(n==='Imobiliárias')return 'Imobiliária';return n==='Todos'?'':n}
+function nicheMatches(c){return activeNiche==='Todos'||nicheCategory(c.segment)===activeNiche}
+function nicheNames(){return [...new Set(['Barbearias','Imobiliárias',...niches,...contacts.map(c=>nicheCategory(c.segment))])].filter(Boolean)}
+function selectedIntro(n){if(n==='Imobiliárias')return nicheIntros[n]||REAL_ESTATE_INTRO;if(n==='Barbearias')return nicheIntros[n]||templates[0];return nicheIntros[n]||'Encontrei a {empresa} e tive uma ideia para ajudar na divulgação do seu negócio. Trabalho com soluções digitais e posso te mostrar uma amostra sem compromisso. Posso enviar?'}
+function introForContact(c){return selectedIntro(nicheCategory(c.segment))}
+function renderNicheMenus(){
+ const names=['Todos',...nicheNames()];
+ for(const [id,pills] of [['niche-tabs',true],['niche-sidebar',false]]){
+  const root=$(id);if(!root)continue;root.replaceChildren();
+  names.forEach(n=>{const b=document.createElement('button');b.type='button';b.className=(pills?'niche-tab ':'')+(n===activeNiche?'active':'');const count=contacts.filter(c=>n==='Todos'||nicheCategory(c.segment)===n).length;b.textContent=n+' ('+count+')';b.setAttribute('aria-pressed',String(n===activeNiche));b.onclick=()=>selectNiche(n);root.appendChild(b)});
+  if(pills){const add=document.createElement('button');add.type='button';add.className='niche-tab add';add.textContent='＋ Novo nicho';add.onclick=()=>{let name=prompt('Nome do novo nicho (ex.: Pizzarias):');if(!name)return;name=nicheCategory(name.trim().slice(0,80));if(!name||name==='Outros'||name==='Todos')return;if(!nicheNames().includes(name))niches.push(name);selectNiche(name)};root.appendChild(add)}
+ }
+ const h=$('niche-heading');if(h)h.textContent=activeNiche==='Todos'?'Todos os nichos':activeNiche+' — lista separada';
+ const label=$('intro-niche-label');if(label)label.textContent='Mensagem principal • '+(activeNiche==='Todos'?'Barbearias':activeNiche);
+ const preview=$('intro-niche-preview');if(preview)preview.textContent=vars(selectedIntro(activeNiche==='Todos'?'Barbearias':activeNiche),null);
+}
+function selectNiche(n){activeNiche=n;save();render();renderBoard();renderMessages();tab('empresas')}
+
 // Atualiza somente a primeira abordagem mesmo para quem já tinha a versão anterior salva.
 const INTRO_MIGRATION_KEY=KEY+'_mensagem_20261101';
 try{if(localStorage.getItem(INTRO_MIGRATION_KEY)!=='1'){templates[0]=initialTemplates[0][2];localStorage.setItem(KEY,JSON.stringify({...stored,templates}));localStorage.setItem(INTRO_MIGRATION_KEY,'1');}}catch(_){templates[0]=initialTemplates[0][2];}
